@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BethanysPieShop.Migrations
 {
     [DbContext(typeof(BethanysPieShopDbContext))]
-    [Migration("20230114184815_InitialMigration")]
+    [Migration("20230116190914_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
