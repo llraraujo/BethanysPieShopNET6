@@ -14,6 +14,7 @@ builder.Services.AddHttpContextAccessor();
 
 //enables MVC
 builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages();
 
 //Add DbContext to the App
 builder.Services.AddDbContext<BethanysPieShopDbContext>(
@@ -26,6 +27,7 @@ var app = builder.Build();
 app.UseStaticFiles();
 app.UseSession();
 
+
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
@@ -33,9 +35,9 @@ if (app.Environment.IsDevelopment())
 
 app.MapDefaultControllerRoute();
 // O método acima é a mesma coisa disso:
-    //app.MapControllerRoute(
-    //    name: "default",
-    //    pattern: "{controller=Home}/{action=Index}/{id?}");
-
+//app.MapControllerRoute(
+//    name: "default",
+//    pattern: "{controller=Home}/{action=Index}/{id?}");
+app.MapRazorPages();
 DbInitializer.Seed(app);
 app.Run();
