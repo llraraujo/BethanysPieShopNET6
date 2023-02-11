@@ -1,8 +1,10 @@
 using BethanysPieShop.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
+var connectionString = builder.Configuration.GetConnectionString("BethanysPieShopContextConnection") ?? throw new InvalidOperationException("Connection string 'BethanysPieShopDbContextConnection' not found.");
 
 // Dependecy Injection of Services
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
@@ -24,11 +26,17 @@ builder.Services.AddDbContext<BethanysPieShopDbContext>(
         options.UseSqlServer(builder.Configuration["ConnectionStrings:BethanysPieShopContextConnection"]);
     });
 
+builder.Services.AddDefaultIdentity<IdentityUser>()
+    .AddEntityFrameworkStores<BethanysPieShopDbContext>();
+
 var app = builder.Build();
 
 app.UseStaticFiles();
 app.UseSession();
+//Configuração para Utilizar o Microsoft Identity - Autenticação
 app.UseAuthentication();
+//Configuração para Utilizar o Microsoft Identity - Autorização
+app.UseAuthorization();
 
 
 if (app.Environment.IsDevelopment())
@@ -37,7 +45,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapDefaultControllerRoute();
-// O m�todo acima � a mesma coisa disso:
+// O m�todo acima � a mesma coisa disso:
 //app.MapControllerRoute(
 //    name: "default",
 //    pattern: "{controller=Home}/{action=Index}/{id?}");
